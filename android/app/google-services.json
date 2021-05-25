@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "866584493559",
+    "project_id": "shiba-2a578",
+    "storage_bucket": "shiba-2a578.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:866584493559:android:80d903b1fb90c7ca8542f2",
+        "android_client_info": {
+          "package_name": "io.shiba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "866584493559-2n1htd1ph71k2puar9ve895s8nfqietv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALGrBu5K-AyrKyTXAuIYQ4X3_k5eOVYmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "866584493559-2n1htd1ph71k2puar9ve895s8nfqietv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
