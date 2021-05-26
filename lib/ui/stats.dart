@@ -240,6 +240,7 @@ class StatsState extends State<Stats> {
       setState(() {
         datas = list
             .map((item) => KLineEntity.fromJson(item))
+
             .toList()
             .reversed
             .toList()
@@ -259,7 +260,7 @@ class StatsState extends State<Stats> {
   //获取火币数据，需要翻墙
   Future<String> getIPAddress(String period) async {
     var url =
-        'https://api.huobi.br.com/market/history/kline?period=${period ?? '1day'}&size=300&symbol=shibusdt';
+        'https://api.huobi.br.com/market/history/kline?period=${period ?? '1day'}&size=30&symbol=shibusdt';
     String result;
     var response = await http.get(url);
     if (response.statusCode == 200) {
@@ -274,6 +275,7 @@ class StatsState extends State<Stats> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff171e26),
       body: ModalProgressHUD(
         inAsyncCall: isLoading,
         child: Stack(
@@ -281,7 +283,7 @@ class StatsState extends State<Stats> {
             SingleChildScrollView(
               child: Container(
 
-                margin: EdgeInsets.only(top: 40),
+                margin: EdgeInsets.only(top: 60),
                 child: Column(
                   children: [
                     Center(
@@ -294,10 +296,11 @@ class StatsState extends State<Stats> {
                       child: Text(
                         "Shiba Token",
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white),
                       ),
                     ),
                     Container(
+                      margin: EdgeInsets.only(top: 20,bottom: 20),
                       child: RaisedButton(
                         shape: RoundedRectangleBorder(
                             borderRadius: new BorderRadius.circular(30.0)),
@@ -315,416 +318,422 @@ class StatsState extends State<Stats> {
                         },
                       ),
                     ),
+
                     Container(
-                      margin: EdgeInsets.only(top: 20, bottom: 30),
-                      height: 1,
-                      color: Colors.grey.withOpacity(0.3),
-                      width: double.infinity,
-                      child: null,
-                    ),
-                    price != "0" ? Container(
-                      child:      Row(
-                        mainAxisAlignment:
-                        MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            child: Column(
-                              children: [
-                                Text(
-                                  "${price}",
-                                  style: TextStyle(
-                                      fontSize: 30,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.only(
-                                left: 10, right: 10, top: 5, bottom: 5),
-                            decoration: BoxDecoration(
-                                color: type == "text-green"
-                                    ? Colors.greenAccent
-                                    : Colors.redAccent,
-                                borderRadius: BorderRadius.all(
-                                    Radius.circular(10))),
-                            margin: EdgeInsets.only(top: 0),
-                            child: Text(
-                              "${percentaje}",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          )
-                        ],
+                      padding: EdgeInsets.only(top: 30),
+                      decoration: BoxDecoration(
+                        color: Color(0xff1f2630),
+                        borderRadius: BorderRadius.only(topRight: Radius.circular(30),topLeft:  Radius.circular(30))
                       ),
-                    ): Container(),
-
-                    price != "0" ? Container(
-                      margin: EdgeInsets.only(top: 30),
-                      child:  Column(
-                        children: [
-                          datas.length>0 ? Container(
-                              height: 300,
-                              child:  KChartWidget(
-                                datas,
-                                chartStyle,
-                                chartColors,
-                                isLine: true,
-                                mainState: _mainState,
-                                volHidden: true,
-                                secondaryState: _secondaryState,
-                                fixedLength: 10,
-                                timeFormat: TimeFormat.YEAR_MONTH_DAY,
-                                isChinese: false,
-
-
-                              )
-
-
-                          ) : Container(),
-                        ],
-                      ) ,
-                    ): Container(),
-                    price != "0"
-                        ? Container(
-                      padding: EdgeInsets.only(left: 20,right: 20),
                       child: Column(
                         children: [
+                          price != "0" ? Container(
+                            child:      Row(
+                              mainAxisAlignment:
+                              MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "${price}",
+                                        style: TextStyle(
+                                            fontSize: 40,
+                                            fontWeight: FontWeight.w400,color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(
+                                      left: 10, right: 10, top: 5, bottom: 5),
+                                  decoration: BoxDecoration(
+                                      color: type == "text-green"
+                                          ? Colors.green
+                                          : Colors.redAccent,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(10))),
+                                  margin: EdgeInsets.only(top: 0),
+                                  child: Text(
+                                    "${percentaje}",
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ): Container(),
+
+                          price != "0" ? Container(
+                            margin: EdgeInsets.only(top: 30),
+                            child:  Column(
+                              children: [
+                                datas.length>0 ? Container(
+                                    height: 300,
+                                    child:  KChartWidget(
+                                      datas,
+                                      chartStyle,
+                                      chartColors,
+                                      isLine: true,
+                                      mainState: _mainState,
+                                      volHidden: true,
+                                      secondaryState: _secondaryState,
+                                      fixedLength: 10,
+                                      timeFormat: TimeFormat.YEAR_MONTH_DAY,
+
+                                      isChinese: false,
 
 
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            child: Container(
-                              padding: EdgeInsets.only(
+                                    )
 
-                                  top: 20,
-                                  bottom: 20),
-                              child: Column(
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+
+                                ) : Container(),
+                              ],
+                            ) ,
+                          ): Container(),
+                          price != "0"
+                              ? Container(
+                            padding: EdgeInsets.only(left: 20,right: 20),
+                            child: Column(
+                              children: [
+
+
+                                Container(
+                                  margin: EdgeInsets.only(top: 20),
+                                  child: Container(
+                                    padding: EdgeInsets.only(
+
+                                        top: 20,
+                                        bottom: 20),
+                                    child: Column(
                                       children: [
-                                        Expanded(
-                                          child: Container(
-                                            child: Text(
-                                              "Capitalización de mercado",
-                                              style:
-                                              TextStyle(fontSize: 16),
-                                            ),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                child: Container(
+                                                  child: Text(
+                                                    "Capitalización de mercado",
+                                                    style:
+                                                    TextStyle(fontSize: 16,color: Colors.white),
+                                                  ),
+                                                ),
+                                                flex: 5,
+                                              ),
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 5,
+                                                    bottom: 5),
+                                                margin:
+                                                EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "${capitalization}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                      FontWeight.bold,color: Colors.white),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                          flex: 5,
                                         ),
                                         Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          margin:
-                                          EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            "${capitalization}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight:
-                                                FontWeight.bold),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Dominio de capitalización de mercado",
+                                                      style:
+                                                      TextStyle(fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 5,
+                                                    bottom: 5),
+                                                margin:
+                                                EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "${capitalization}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                      FontWeight.bold,color: Colors.white),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "Dominio de capitalización de mercado",
-                                                style:
-                                                TextStyle(fontSize: 16),
-                                              ),
-                                            )),
+                                        ),
                                         Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          margin:
-                                          EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            "${capitalization}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight:
-                                                FontWeight.bold),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Volumen de comercio",
+                                                      style:
+                                                      TextStyle(fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Container(
+                                                padding: EdgeInsets.only(
+                                                    left: 10,
+                                                    right: 10,
+                                                    top: 5,
+                                                    bottom: 5),
+                                                margin:
+                                                EdgeInsets.only(top: 10),
+                                                child: Text(
+                                                  "${volume}",
+                                                  style: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                      FontWeight.bold,color: Colors.white),
+                                                ),
+                                              )
+                                            ],
                                           ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "Volumen de comercio",
-                                                style:
-                                                TextStyle(fontSize: 16),
-                                              ),
-                                            )),
+                                        ),
                                         Container(
-                                          padding: EdgeInsets.only(
-                                              left: 10,
-                                              right: 10,
-                                              top: 5,
-                                              bottom: 5),
-                                          margin:
-                                          EdgeInsets.only(top: 10),
-                                          child: Text(
-                                            "${volume}",
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight:
-                                                FontWeight.bold),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Volumen / Cap. de mercado",
+                                                      style: TextStyle(
+                                                          fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10,
+                                                        right: 10,
+                                                        top: 5,
+                                                        bottom: 5),
+                                                    margin: EdgeInsets.only(
+                                                        top: 10),
+                                                    child: Text(
+                                                      "${volume_cap}",
+                                                      textAlign:
+                                                      TextAlign.right,
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                          FontWeight.bold,color: Colors.white),
+                                                    ),
+                                                  ))
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Clasificación de capitalización de mercado	 ",
+                                                      style: TextStyle(
+                                                          fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                  flex: 5,
+                                                  child: Container(
+                                                    padding: EdgeInsets.only(
+                                                        left: 10,
+                                                        right: 10,
+                                                        top: 5,
+                                                        bottom: 5),
+                                                    margin: EdgeInsets.only(
+                                                        top: 10),
+                                                    child: Text(
+                                                      "${clasification}",
+                                                      textAlign:
+                                                      TextAlign.right,
+                                                      style: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                          FontWeight.bold,color: Colors.white),
+                                                    ),
+                                                  ))
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Mínimo en 24 h / Máximo en 24 h",
+                                                      style:
+                                                      TextStyle(fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      top: 5,
+                                                      bottom: 5),
+                                                  margin:
+                                                  EdgeInsets.only(top: 10),
+                                                  child: Text(
+                                                    "${maximun_minimun}",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight.bold,color: Colors.white),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Mínimo en 7 días / Máximo en 7 días",
+                                                      style:
+                                                      TextStyle(fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      top: 5,
+                                                      bottom: 5),
+                                                  margin:
+                                                  EdgeInsets.only(top: 10),
+                                                  child: Text(
+                                                    "${minimum_low}",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight.bold,color: Colors.white),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Máximo histórico	",
+                                                      style:
+                                                      TextStyle(fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      top: 5,
+                                                      bottom: 5),
+                                                  margin:
+                                                  EdgeInsets.only(top: 10),
+                                                  child: Text(
+                                                    "${maximun_historic}",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight.bold,color: Colors.white),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Row(
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Mínimo histórico	",
+                                                      style:
+                                                      TextStyle(fontSize: 16,color: Colors.white),
+                                                    ),
+                                                  )),
+                                              Expanded(
+                                                child: Container(
+                                                  padding: EdgeInsets.only(
+                                                      left: 10,
+                                                      right: 10,
+                                                      top: 5,
+                                                      bottom: 5),
+                                                  margin:
+                                                  EdgeInsets.only(top: 10),
+                                                  child: Text(
+                                                    "${minimum_historic}",
+                                                    textAlign: TextAlign.right,
+                                                    style: TextStyle(
+                                                        fontSize: 14,
+                                                        fontWeight:
+                                                        FontWeight.bold,color: Colors.white),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         )
                                       ],
                                     ),
                                   ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            flex: 5,
-                                            child: Container(
-                                              child: Text(
-                                                "Volumen / Cap. de mercado",
-                                                style: TextStyle(
-                                                    fontSize: 16),
-                                              ),
-                                            )),
-                                        Expanded(
-                                            flex: 5,
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 10,
-                                                  top: 5,
-                                                  bottom: 5),
-                                              margin: EdgeInsets.only(
-                                                  top: 10),
-                                              child: Text(
-                                                "${volume_cap}",
-                                                textAlign:
-                                                TextAlign.right,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                    FontWeight.bold),
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            flex: 5,
-                                            child: Container(
-                                              child: Text(
-                                                "Clasificación de capitalización de mercado	 ",
-                                                style: TextStyle(
-                                                    fontSize: 16),
-                                              ),
-                                            )),
-                                        Expanded(
-                                            flex: 5,
-                                            child: Container(
-                                              padding: EdgeInsets.only(
-                                                  left: 10,
-                                                  right: 10,
-                                                  top: 5,
-                                                  bottom: 5),
-                                              margin: EdgeInsets.only(
-                                                  top: 10),
-                                              child: Text(
-                                                "${clasification}",
-                                                textAlign:
-                                                TextAlign.right,
-                                                style: TextStyle(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                    FontWeight.bold),
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "Mínimo en 24 h / Máximo en 24 h",
-                                                style:
-                                                TextStyle(fontSize: 16),
-                                              ),
-                                            )),
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            margin:
-                                            EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "${maximun_minimun}",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "Mínimo en 7 días / Máximo en 7 días",
-                                                style:
-                                                TextStyle(fontSize: 16),
-                                              ),
-                                            )),
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            margin:
-                                            EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "${minimum_low}",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "Máximo histórico	",
-                                                style:
-                                                TextStyle(fontSize: 16),
-                                              ),
-                                            )),
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            margin:
-                                            EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "${maximun_historic}",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                            child: Container(
-                                              child: Text(
-                                                "Mínimo histórico	",
-                                                style:
-                                                TextStyle(fontSize: 16),
-                                              ),
-                                            )),
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5),
-                                            margin:
-                                            EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              "${minimum_historic}",
-                                              textAlign: TextAlign.right,
-                                              style: TextStyle(
-                                                  fontSize: 14,
-                                                  fontWeight:
-                                                  FontWeight.bold),
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
+                                )
+                              ],
                             ),
+                          )
+                              : Container(
+                            child: Text("Cargando..."),
                           )
                         ],
                       ),
                     )
-                        : Container(
-                            child: Text("Cargando..."),
-                          )
                   ],
                 ),
               ),
